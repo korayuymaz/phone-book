@@ -1,0 +1,14 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
+
+  // &-logo {
+
+  // }
+
+  &-links {
+    display: flex;
+    gap: 20px;
+  }
+}
