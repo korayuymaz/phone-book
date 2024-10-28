@@ -1,10 +1,11 @@
 import Header from './components/Header'
+import Welcome from './pages/welcome'
 
 function App() {
   return (
     <div>
       <Header />
-      <main>Hello World</main>
+      <Welcome />
     </div>
   )
 }
