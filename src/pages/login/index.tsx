@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import Form from '../../components/ui/Form'
 
 interface LoginFormProps {
   isLoggedIn: boolean
@@ -35,33 +36,32 @@ const LoginForm: React.FC<LoginFormProps> = ({
     onLogout()
   }
 
+  const inputs = [
+    {
+      type: 'text',
+      name: 'User Name:',
+      handleFunction: setUserName,
+      value: username,
+    },
+    {
+      type: 'password',
+      name: 'Password:',
+      handleFunction: setPassword,
+      value: password,
+    },
+  ]
+
   return (
     <div>
       {isLoggedIn && <button onClick={handleLogout}>Log Out</button>}
       {!isLoggedIn && (
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label>User Name:</label>
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUserName(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label>Password:</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          {error && <p>{error}</p>}
-          <button type="submit">Login</button>
-        </form>
+        <Form
+          handleSubmit={handleSubmit}
+          inputs={inputs}
+          submitButtonInnerValue={'Login'}
+        />
       )}
+      {error && <div>{error}</div>}
     </div>
   )
 }
