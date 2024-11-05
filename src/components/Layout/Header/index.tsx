@@ -1,13 +1,18 @@
+import handleLogout from '../../../lib/utils/handleLogout'
 import { useNavigate } from 'react-router-dom'
 import './index.scss'
+import { AuthContext } from '../../../contexts/AuthContext'
+import { useContext } from 'react'
 
-interface HeaderProps {
-  isLoggedIn: boolean
-  onLogout: () => void
-}
+const Header = () => {
+  const context = useContext(AuthContext)
+  if (!context) {
+    throw new Error('useAuthContext must be used within an AuthProvider')
+  }
+  const { isLoggedIn, setIsLoggedIn, setToken } = context
 
-const Header: React.FC<HeaderProps> = ({ isLoggedIn, onLogout }) => {
   const navigate = useNavigate()
+
   return (
     <div className="header">
       <div className="header-logo">
@@ -54,7 +59,11 @@ const Header: React.FC<HeaderProps> = ({ isLoggedIn, onLogout }) => {
           </div>
         )}
 
-        {isLoggedIn && <button onClick={onLogout}>Log out</button>}
+        {isLoggedIn && (
+          <button onClick={() => handleLogout(setIsLoggedIn, setToken)}>
+            Log out
+          </button>
+        )}
       </div>
     </div>
   )
