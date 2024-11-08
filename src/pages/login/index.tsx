@@ -1,21 +1,37 @@
 import React, { useContext, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import axios from 'axios'
 import Form from '../../components/ui/Form'
-import handleLogin from '../../lib/utils/handleLogin'
-import handleLogout from '../../lib/utils/handleLogout'
+// import handleLogin from '../../lib/utils/handleLogin'
+// import handleLogout from '../../lib/utils/handleLogout'
 import { AuthContext } from '../../contexts/AuthContext'
 
 const LoginForm = () => {
   const [username, setUserName] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const navigate = useNavigate()
 
   const context = useContext(AuthContext)
   if (!context) {
     throw new Error('useAuthContext must be used within an AuthProvider')
   }
   const { isLoggedIn, setIsLoggedIn, setToken } = context
+
+  const handleLogin = (token: string) => {
+    setToken(token)
+    setIsLoggedIn(true)
+    localStorage.setItem('token', token)
+    navigate('/')
+  }
+
+  const handleLogout = () => {
+    setToken(null)
+    setIsLoggedIn(false)
+    localStorage.removeItem('token')
+    navigate('/')
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -25,8 +41,7 @@ const LoginForm = () => {
         password,
       })
       const token = response.data.token
-      handleLogin(token, setIsLoggedIn, setToken)
-      localStorage.setItem('token', token) // Storing the token in localStorage
+      handleLogin(token)
     } catch (err) {
       setError('Login failed. Please check your credentials.')
     }
@@ -49,11 +64,7 @@ const LoginForm = () => {
 
   return (
     <div>
-      {isLoggedIn && (
-        <button onClick={() => handleLogout(setIsLoggedIn, setToken)}>
-          Log Out
-        </button>
-      )}
+      {isLoggedIn && <button onClick={handleLogout}>Log Out</button>}
       {!isLoggedIn && (
         <Form
           handleSubmit={handleSubmit}

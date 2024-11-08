@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { AuthContext } from '../../contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
 
@@ -6,7 +6,7 @@ import { faker } from '@faker-js/faker'
 import List from '../../components/ui/List'
 
 const Number = () => {
-  const randomName = faker.person.fullName() // Rowan Nikolaus
+  const randomName = faker.person.fullName()
   const randomPhoneNumber = faker.phone.number({ style: 'international' })
   const navigate = useNavigate()
 
@@ -28,6 +28,7 @@ const Number = () => {
       label: 'Number',
     },
   ]
+  
   if (isLoggedIn) {
     return <List items={items} />
   } else
