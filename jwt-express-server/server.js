@@ -17,6 +17,7 @@ app.use(function (req, res, next) {
 app.use(express.json())
 app.use('', authRoutes)
 app.use('/login', authRoutes)
+app.use('/numbers/:user_id', authRoutes)
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`)

@@ -1,14 +1,31 @@
-import { useContext } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import { AuthContext } from '../../contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
 
-import { faker } from '@faker-js/faker'
+// import List from '../../components/ui/List'
+import axios from 'axios'
 import List from '../../components/ui/List'
 
 const Number = () => {
-  const randomName = faker.person.fullName()
-  const randomPhoneNumber = faker.phone.number({ style: 'international' })
+  const [numbers, setNumbers] = useState([])
+  const [loading, setLoading] = useState(true)
+
   const navigate = useNavigate()
+
+  const fetchNumbers = async () => {
+    try {
+      // Send GET request to the API
+      const response = await axios.get(`http://localhost:3050/numbers/${1}`)
+      setNumbers(response.data) // Extract numbers from the response
+      setLoading(false)
+    } catch (err) {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchNumbers()
+  }, [])
 
   const authContext = useContext(AuthContext)
 
@@ -18,20 +35,11 @@ const Number = () => {
 
   const { isLoggedIn } = authContext
 
-  const items = [
-    {
-      name: randomName,
-      label: 'Name',
-    },
-    {
-      name: randomPhoneNumber,
-      label: 'Number',
-    },
-  ]
-  
-  if (isLoggedIn) {
-    return <List items={items} />
-  } else
+  if (loading) return <p>Loading...</p>
+
+  if (isLoggedIn && numbers) {
+    return <List items={numbers} />
+  } else {
     return (
       <div>
         You should logged in to see your phone book{' '}
@@ -44,6 +52,7 @@ const Number = () => {
         </button>
       </div>
     )
+  }
 }
 
 export default Number

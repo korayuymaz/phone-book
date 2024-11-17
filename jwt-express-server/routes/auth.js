@@ -3,6 +3,7 @@
 const express = require('express')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
+const { faker, da } = require('@faker-js/faker')
 const router = express.Router()
 const authenticateToken = require('../middleware/authMiddleware')
 
@@ -23,6 +24,21 @@ const users = [
   { id: 1, username: 'user1', password: bcrypt.hashSync('password', 10) },
 ]
 
+//Dummy numbers data
+
+const numbers = [
+  {
+    user_id: '1',
+    name: faker.person.fullName(),
+    number: faker.phone.number({ style: 'international' }),
+  },
+  {
+    user_id: '1',
+    name: faker.person.fullName(),
+    number: faker.phone.number({ style: 'international' }),
+  },
+]
+
 // Login route
 router.post('/login', async (req, res) => {
   const { username, password } = req.body
@@ -40,6 +56,17 @@ router.post('/login', async (req, res) => {
   } else {
     res.status(401).json({ message: 'Invalid credentials' })
   }
+})
+
+//Get numbers route
+router.get('/numbers/:user_id', (req, res) => {
+  let { user_id } = req.params
+
+  const data = numbers.filter((number) => {
+    return number.user_id === user_id
+  })
+
+  res.send(data)
 })
 
 module.exports = router
