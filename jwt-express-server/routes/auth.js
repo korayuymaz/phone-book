@@ -3,7 +3,7 @@
 const express = require('express')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
-const { faker, da } = require('@faker-js/faker')
+const { faker } = require('@faker-js/faker')
 const router = express.Router()
 const authenticateToken = require('../middleware/authMiddleware')
 
@@ -52,7 +52,8 @@ router.post('/login', async (req, res) => {
         expiresIn: '1h',
       }
     )
-    res.json({ token })
+    const user_id = user.id
+    res.json({ token, user_id })
   } else {
     res.status(401).json({ message: 'Invalid credentials' })
   }

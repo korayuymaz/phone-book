@@ -17,11 +17,12 @@ const LoginForm = () => {
   if (!context) {
     throw new Error('useAuthContext must be used within an AuthProvider')
   }
-  const { isLoggedIn, setIsLoggedIn, setToken } = context
+  const { isLoggedIn, setIsLoggedIn, setToken, setUserID } = context
 
-  const handleLogin = (token: string) => {
+  const handleLogin = (token: string, userID: string) => {
     setToken(token)
     setIsLoggedIn(true)
+    setUserID(userID)
     localStorage.setItem('token', token)
     navigate('/')
   }
@@ -29,6 +30,7 @@ const LoginForm = () => {
   const handleLogout = () => {
     setToken(null)
     setIsLoggedIn(false)
+    setUserID('')
     localStorage.removeItem('token')
     navigate('/')
   }
@@ -41,7 +43,8 @@ const LoginForm = () => {
         password,
       })
       const token = response.data.token
-      handleLogin(token)
+      const userID = response.data.user_id
+      handleLogin(token, userID)
     } catch (err) {
       setError('Login failed. Please check your credentials.')
     }

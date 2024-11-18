@@ -7,6 +7,13 @@ import axios from 'axios'
 import List from '../../components/ui/List'
 
 const Number = () => {
+  const context = useContext(AuthContext)
+  
+  if (!context) {
+    throw new Error('useAuthContext must be used within an AuthProvider')
+  }
+  const { isLoggedIn, userID } = context
+
   const [numbers, setNumbers] = useState([])
   const [loading, setLoading] = useState(true)
 
@@ -15,7 +22,9 @@ const Number = () => {
   const fetchNumbers = async () => {
     try {
       // Send GET request to the API
-      const response = await axios.get(`http://localhost:3050/numbers/${1}`)
+      const response = await axios.get(
+        `http://localhost:3050/numbers/${userID}`
+      )
       setNumbers(response.data) // Extract numbers from the response
       setLoading(false)
     } catch (err) {
@@ -26,14 +35,6 @@ const Number = () => {
   useEffect(() => {
     fetchNumbers()
   }, [])
-
-  const authContext = useContext(AuthContext)
-
-  if (!authContext) {
-    throw new Error('AuthContext must be used within an AuthProvider')
-  }
-
-  const { isLoggedIn } = authContext
 
   if (loading) return <p>Loading...</p>
 
