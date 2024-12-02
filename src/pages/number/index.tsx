@@ -2,13 +2,12 @@ import { useContext, useState, useEffect } from 'react'
 import { AuthContext } from '../../contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
 
-// import List from '../../components/ui/List'
-import axios from 'axios'
 import List from '../../components/ui/List'
+import axiosInstance from '../../lib/interceptors'
 
 const Number = () => {
   const context = useContext(AuthContext)
-  
+
   if (!context) {
     throw new Error('useAuthContext must be used within an AuthProvider')
   }
@@ -22,9 +21,7 @@ const Number = () => {
   const fetchNumbers = async () => {
     try {
       // Send GET request to the API
-      const response = await axios.get(
-        `http://localhost:3050/numbers/${userID}`
-      )
+      const response = await axiosInstance.get(`/numbers/${userID}`)
       setNumbers(response.data) // Extract numbers from the response
       setLoading(false)
     } catch (err) {

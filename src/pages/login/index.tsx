@@ -1,11 +1,10 @@
 import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import axios from 'axios'
 import Form from '../../components/ui/Form'
-// import handleLogin from '../../lib/utils/handleLogin'
-// import handleLogout from '../../lib/utils/handleLogout'
+
 import { AuthContext } from '../../contexts/AuthContext'
+import axiosInstance from '../../lib/interceptors'
 
 const LoginForm = () => {
   const [username, setUserName] = useState('')
@@ -38,7 +37,7 @@ const LoginForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
-      const response = await axios.post('http://localhost:3050/login', {
+      const response = await axiosInstance.post('/login', {
         username,
         password,
       })

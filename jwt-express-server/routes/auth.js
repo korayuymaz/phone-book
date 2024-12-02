@@ -2,13 +2,15 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const express = require('express')
 const jwt = require('jsonwebtoken')
+const cors = require('cors')
 const bcrypt = require('bcryptjs')
 const { faker } = require('@faker-js/faker')
 const router = express.Router()
 const authenticateToken = require('../middleware/authMiddleware')
 
+router.use(cors())
 //Check server working
-router.get('/', (req, res) => {
+router.get('/', authenticateToken, (req, res) => {
   res.send('Home page!')
 })
 

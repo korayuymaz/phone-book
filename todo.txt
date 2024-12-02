@@ -1,3 +1,2 @@
--- Interceptor ile cagirilan numaralarda authentication tokenin kullanımı ile alakalı kuralları kullan
 -- Jest ile test case'leri oluştur ve testler yap
 -- tasarım renkleri ve değişkenleri tanımla onları genel yapıda kullan
