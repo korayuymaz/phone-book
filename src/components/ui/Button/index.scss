@@ -1,0 +1,19 @@
+.button {
+  border: 1px white solid;
+  border-radius: 10px;
+  padding: 5px 10px;
+
+  &.link {
+    text-decoration: underline;
+    background-color: rgb(18, 18, 75);
+  }
+
+  &.primary {
+    background-color: black;
+  }
+
+  &.secondary {
+    background-color: white;
+    color: black;
+  }
+}
