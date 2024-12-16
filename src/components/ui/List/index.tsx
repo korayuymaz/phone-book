@@ -1,17 +1,22 @@
 import React from 'react'
+import './index.scss'
 
 interface ListProps {
   items: {
+    id: string
     name: string
-    label: string
+    number: string
   }[]
 }
 
 const List: React.FC<ListProps> = ({ items }) => {
+  console.log(items)
   return (
     <ul>
       {items.map((item) => (
-        <li key={item.name}>{item.name}</li>
+        <li className="list" key={item.id}>
+          {item.name} <span className="list__number">{item.number}</span>
+        </li>
       ))}
     </ul>
   )

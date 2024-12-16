@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 import List from '../../components/ui/List'
 import axiosInstance from '../../lib/interceptors'
+import './index.scss'
 
 const Number = () => {
   const context = useContext(AuthContext)
@@ -24,6 +25,7 @@ const Number = () => {
       const response = await axiosInstance.get(`/numbers/${userID}`)
       setNumbers(response.data) // Extract numbers from the response
       setLoading(false)
+      console.log(response.data)
     } catch (err) {
       setLoading(false)
     }
@@ -33,24 +35,25 @@ const Number = () => {
     fetchNumbers()
   }, [])
 
-  if (loading) return <p>Loading...</p>
-
-  if (isLoggedIn && numbers) {
-    return <List items={numbers} />
-  } else {
-    return (
-      <div>
-        You should logged in to see your phone book{' '}
-        <button
-          onClick={() => {
-            navigate('/login')
-          }}
-        >
-          <span style={{ color: 'blue' }}>Login Here...</span>
-        </button>
-      </div>
-    )
-  }
+  return (
+    <div className="numbers">
+      {loading && <p>Loading...</p>}
+      {isLoggedIn && numbers ? (
+        <List items={numbers} />
+      ) : (
+        <div>
+          You should logged in to see your phone book{' '}
+          <button
+            onClick={() => {
+              navigate('/login')
+            }}
+          >
+            <span className="numbers__span">Login Here...</span>
+          </button>
+        </div>
+      )}
+    </div>
+  )
 }
 
 export default Number
