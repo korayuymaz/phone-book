@@ -1,46 +1,133 @@
-# Getting Started with Create React App
+# 🔐 JWT Express Server – Phone Book Auth API
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This directory contains the authentication backend for the **Phone Book** project. It is built with **Express.js** and implements a basic **JWT-based authentication system**. The data is mocked using `faker.js`, and access to user data is protected via middleware. The React frontend written in **TypeScript** is located under `/src` and communicates securely with this server using an **Axios interceptor**.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🚀 Features
 
-### `npm start`
+- 🌐 Express.js REST API
+- 🔐 JWT-based authentication (`jsonwebtoken`)
+- ✅ Auth middleware to protect routes
+- 🧪 Simple login logic (with static credentials)
+- 🧸 Mocked user data (no database)
+- 🔗 Connected to React frontend (written in TypeScript)
+- 🌐 Secure API calls via Axios interceptor
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+---
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## 🗂️ Folder Structure
 
-### `npm test`
+```
+jwt-express-server/
+├── routes/
+│   └── auth.js               # /login and /users routes
+├── middleware/
+│   └── verifyToken.js        # Middleware for verifying JWTs
+├── data/
+│   └── users.js              # Fake user data (via faker.js)
+├── .env                      # JWT_SECRET configuration
+├── package.json
+└── server.js                 # App entry point
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+phone-book/src/
+├── api/
+│   └── axios.ts              # Axios instance with JWT interceptor
+├── pages/
+│   └── Login.tsx             # Login view
+│   └── Users.tsx             # Protected view fetching user data
+├── types/                    # TypeScript interfaces
+├── App.tsx                   # Root component
+└── main.tsx                  # Entry point
+```
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 📌 API Endpoints
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### `POST /login`
+Authenticate user and return JWT.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+**Body:**
+```json
+{
+  "username": "admin",
+  "password": "admin"
+}
+```
 
-### `npm run eject`
+**Response:**
+```json
+{
+  "token": "your.jwt.token"
+}
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+---
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### `GET /users`
+Returns the list of users (protected route).
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+**Headers:**
+```http
+Authorization: Bearer <your_token>
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+---
 
-## Learn More
+## 🧪 Getting Started
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Backend
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+cd jwt-express-server
+npm install
+npm start
+```
+
+Create a `.env` file with:
+
+```env
+JWT_SECRET=your_secret_key
+```
+
+### Frontend
+
+```bash
+cd phone-book
+npm install
+npm run dev
+```
+
+Open in browser: `http://localhost:5173`
+
+---
+
+## 💡 Frontend Integration Notes
+
+- Frontend is written in **TypeScript** (React)
+- All protected API calls use a shared **axios** instance
+- JWT token is stored and automatically attached via **Axios interceptor**
+- Pages like `/number` are only accessible after successful login
+
+---
+
+## 🛠️ Technologies Used
+
+- **Backend**: Express.js, jsonwebtoken, faker.js, dotenv  
+- **Frontend**: React, TypeScript, Axios  
+
+---
+
+## 🧩 Possible Improvements
+
+- Replace static credentials with dynamic registration
+- Connect to a real database (e.g., MongoDB)
+- Refresh tokens, password reset, email verification
+- Role-based access control and enhanced error handling
+
+---
+
+## 📄 License
+
+MIT © [Koray Uymaz](https://github.com/korayuymaz)
