@@ -65,8 +65,8 @@ Authenticate user and return JWT.
 
 ---
 
-### `GET /users`
-Returns the list of users (protected route).
+### `GET /numbers/:user_id`
+Returns the list of numbers belong to the user (protected route).
 
 **Headers:**
 ```http
